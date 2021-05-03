@@ -14,8 +14,10 @@ import requests
 import datetime 
 import json 
 import pyexcel
+import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use("Agg")
+matplotlib.use('Agg')
 
 def list_Hazardous_Asteroids(ADict):
     Hazardous_Asteroid_Found="N"
@@ -82,6 +84,83 @@ def filter_by_magnitude(ADict,Mag,criteria):
         
     print("\n\n")
 
+
+def bar_chart(ADict,DL):
+    if len(ADict) > 0 and len(DL) > 0 :
+       N = len(DL)
+       Hazardous_Count = []
+       Non_Hazardous_Count = []
+       for idx in range(0,N):
+           Hazardous_Count.append(0)
+           Non_Hazardous_Count.append(0)
+
+       for idx in range(0,len(ADict)):
+           for DL_ctr in (0, len(DL)-1):
+               if ADict[idx].get("Date") == DL[DL_ctr]:
+                   break
+           if ADict[idx].get("is_potentially_hazardous"):
+              Hazardous_Count[DL_ctr] += 1
+           else:
+              Non_Hazardous_Count[DL_ctr] += 1
+
+       ind = np.arange(N)
+       width = 0.8
+
+       HCnt = []
+       NHCnt = []
+       for idx in range(0,N):
+           HCnt.append(Hazardous_Count[idx])
+           NHCnt.append(Non_Hazardous_Count[idx])
+
+       p1 = plt.bar(ind, HCnt, width)
+       p2 = plt.bar(ind, NHCnt, width, bottom=Hazardous_Count)
+
+       # Describe the table metadata
+       plt.ylabel("Asteroid Count")
+       plt.title("Asteroid Count Summary by Day")
+       plt.xticks(ind, DL)
+       plt.yticks(np.arange(0, 50, 5))
+       plt.legend((p1[0], p2[0]), ("Hazardous Count", "Non Hazardous Count"))
+
+       # display the graph
+       # plt.show() # you can try this on a Python IDE with a GUI if you'd like
+       plt.savefig("Asteroid_bar_chart.png")
+
+    else: print("Asteroid List is Empty !!!\n\n")
+
+    print("\n")
+
+           
+    #if (len(ADict)) > 0:
+    #   N = 
+    #localnetMeans = (20, 35, 30, 35) #LAN length of outage (mins)
+    #wanMeans = (25, 32, 34, 20) #WAN length of outage (min)
+    #ind = np.arange(N)    # the x locations for the groups
+    ## the width of the bars: can also be len(x) sequence
+    #width = 0.35
+
+    ## describe where to display p1
+    #p1 = plt.bar(ind, localnetMeans, width)
+    ## stack p2 on top of p1
+    #p2 = plt.bar(ind, wanMeans, width, bottom=localnetMeans)
+
+    ## Describe the table metadata
+    #plt.ylabel("Length of Outage (mins)")
+    #plt.title("2018 Network Summary")
+    #plt.xticks(ind, ("Q1", "Q2", "Q3", "Q4"))
+    #plt.yticks(np.arange(0, 81, 10))
+    #plt.legend((p1[0], p2[0]), ("LAN", "WAN"))
+
+    ## display the graph
+    ## plt.show() # you can try this on a Python IDE with a GUI if you'd like
+    #plt.savefig("/home/student/mycode/graphing/2018summary.png")
+    ## save a copy to "~/static" (the "files" view)
+    #plt.savefig("/home/student/static/2018summary.png")
+
+    #else: print("Asteroid List is Empty !!!\n\n")
+
+
+
 def parse_dict_and_create_exceldata(sdt,tdt):
     """Run time code"""
     # create r, which is our request object
@@ -97,10 +176,12 @@ def parse_dict_and_create_exceldata(sdt,tdt):
     
     astroid_info = []
     astroid_uniq_info = []
+    Date_List = []
     for (RootKey,ValueDict) in Aster_Objs.items():    # root-level dictionary
         #print(RootKey)
         for Observ_Date in ValueDict.keys():  # Loop for each Date
             #print(Observ_Date)
+            Date_List.append(Observ_Date)
             for Astroid_List in ValueDict.values(): # Asteriod Information for each Date
                 for idx in range(0,len(Astroid_List)):
                     Astroid_Link = Astroid_List[idx].get("links").get("self")
@@ -173,8 +254,8 @@ def parse_dict_and_create_exceldata(sdt,tdt):
       
     #print(astroid_info,"\n\n")
     if astroid_data :
-        return True, astroid_info, astroid_uniq_info
-    else: return False , astroid_info, astroid_uniq_info
+        return True, astroid_info, astroid_uniq_info, Date_List
+    else: return False , astroid_info, astroid_uniq_info, Date_List
 
 #****
 
@@ -231,7 +312,7 @@ def main():
           (fdate,tdate)=get_user_input()            # Get Date range from user
           #print(f"fdate = {fdate} : tdate = {tdate}")
           #break
-          (Data_Found,Astroid_Dict,Uniq_Astroid_Dict) = parse_dict_and_create_exceldata(fdate,tdate)
+          (Data_Found,Astroid_Dict,Uniq_Astroid_Dict,DateLst) = parse_dict_and_create_exceldata(fdate,tdate)
           if not Data_Found :
               print("No Data found for specified Date Range !!!\n")
           else:
@@ -265,7 +346,8 @@ def main():
                        filter_by_magnitude(Uniq_Astroid_Dict,25,">=")
                   elif user_opt == '5':
                        filter_by_magnitude(Uniq_Astroid_Dict,20,"<")
-                  #elif user_opt == '6':
+                  elif user_opt == '6':
+                       bar_chart(Astroid_Dict,DateLst)
                   elif user_opt == '7' or user_opt == 'Q' :
                        break 
               
