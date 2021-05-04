@@ -7,8 +7,6 @@ Created on Sat May  1 10:41:45 2021
 """
 ####!/usr/bin/env python3
 
-# imports always go at the top of your code
-#from IPython.display import HTML
 import datetime 
 from datetime import date
 from os import path
@@ -258,8 +256,10 @@ def list_Hazardous_Asteroids(ADict,NonEmptyDict):
                  #print("\n\n")
                  print("Sr.No.    Astroid Id         Astroid_Name                 ")
                  print("------    ----------         -----------------------------")
-              
-              print("{}.        {}            {}".format(h_ctr,ADict[idx].get("id"),ADict[idx].get("name")))
+                 print("{}.        {}            {}".format(h_ctr,ADict[idx].get("id"),ADict[idx].get("name")))
+              else:
+                 print("{}.        {}            {}".format(h_ctr,ADict[idx].get("id"),ADict[idx].get("name")))
+
               Hazardous_Asteroid_Found = "Y"
                           
        if Hazardous_Asteroid_Found == "N": 
@@ -295,7 +295,7 @@ def list_top_5_largest_asteroids(ADict,NonEmptyDict):
        print("Sr.No.    Astroid Id              Astroid_Name                    Magnitude_h")
        print("------    ----------              -----------------------------   -----------")
        for idx in range(0,5) :
-           print("{}.        {}\t          {}\t                  {}".format(idx+1,SortedADict[idx].get("id"),SortedADict[idx].get("name"),SortedADict[idx].get("absolute_magnitude_h")))
+           print("{}.        {}\t          {}\t                  {}".format(idx+1,SortedADict[idx].get("id"),SortedADict[idx].get("name").strip(),SortedADict[idx].get("absolute_magnitude_h")))
         
     print("\n\n")
 
@@ -378,7 +378,7 @@ def filter_by_magnitude(ADict,Mag,criteria,NonEmptyDict):
        for idx in range(0,len(ADict)):
            if ops[criteria](float(ADict[idx].get("absolute_magnitude_h")),float(Mag)):   
               ctr += 1
-              print("{}.        {}\t          {}\t                  {}".format(ctr,ADict[idx].get("id"),ADict[idx].get("name"),ADict[idx].get("absolute_magnitude_h")))
+              print("{}.        {}\t          {}\t                  {}".format(ctr,ADict[idx].get("id"),ADict[idx].get("name").strip(),ADict[idx].get("absolute_magnitude_h")))
 
     print("\n\n")
 
@@ -493,7 +493,7 @@ def main():
     while True:
           print("\n")
           print("(1) : Download Astroid Data from api.nasa.gov (max 7 days)")
-          print("(2) : Download Astroid Info to Excel - Astroid_Info.xls")
+          print("(2) : Convert  Astroid Info to Excel - Astroid_Info.xls")
           print("(3) : List Hazardous Astroid Names")
           print("(4) : Top 5 largest Asteroids")
           print("(5) : Query Asteroids by magnitude")
