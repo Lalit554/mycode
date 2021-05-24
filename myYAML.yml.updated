@@ -1,0 +1,6 @@
+- apps: [htop, sshd, iptables, minecraft]
+  hosts: all
+  name: Alta3 Research
+- apps: [Lesson 1, Lesson 2, Lesson 3]
+  hosts: API Class
+  name: Test Lalit

@@ -1,0 +1,14 @@
+---
+- name: Alta3 Research
+  hosts: all
+  apps:
+    - htop
+    - sshd
+    - iptables
+- name: Test Lalit
+  hosts: API Class
+  apps:
+    - Lesson 1
+    - Lesson 2
+    - Lesson 3
+...
