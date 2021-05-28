@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Groups</title>
+    <link rel="stylesheet" href="/static/chal01.css" media="all" />
+</head>
+<body>
+    <form action="/appendgrp" method="POST">
+        <table class="table">
+            <tr class="tablehdr">
+                {% for header in headings %}
+                   <th class="tablecell">
+                       {{ header }} 
+                   </th>
+                {% endfor %}
+            </tr>
+            {% for row in data %}
+                <tr class="tablerow">
+                    {% for cell in row.values() %}
+                       <td class="tablecell">
+                          {{ cell }}
+                       </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+        <table>
+            <tr class="tablehdr">
+                {% for header in headings %}
+                   <th class="tablecell">
+                       {{ header }} 
+                   </th>
+                {% endfor %}
+            </tr>
+            <tr>
+                 <td class="tablecell">
+                     <p><input type = "text" name = "Hostnm"/></p>
+                 </td>
+                 <td class="tablecell">
+                     <p><input type = "text" name = "IPAddr"/></p>
+                 </td>
+                 <td class="tablecell">
+                     <p><input type = "text" name = "DName"/></p>
+                 </td>
+                 <td>
+                     <p><input type = "submit" value = 'Save'/></p>
+                 </td>
+                 <td>
+                     <p><input type = "submit" value = 'Reset' formaction="/noaction"/></p>
+                 </td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+                 <td>
+                     <p><input type = "submit" value = 'Logout' formaction="/logout"/></p>
+                 </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

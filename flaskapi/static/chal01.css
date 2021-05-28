@@ -1,0 +1,19 @@
+.table {
+	border-size: 4px;
+	border-spacing: 0;
+	margin: 1rem;
+	background: #f3f3f3;
+       }
+
+.tablerow:nth-child(even) {
+	background: #e7e7e7;
+       }
+
+.tablehdr {
+	background: #h4h4h4;
+	text-align: center;
+       }
+
+.tablecell {
+        padding: 8px;
+       }

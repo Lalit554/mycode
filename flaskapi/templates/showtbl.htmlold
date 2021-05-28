@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in with your name</title>
+    <link> rel="stylesheet" href="/static/chal01.css" </link>
+    <form action = "/showtbl" method = "GET">
+	<table class="table">
+           <tr class="tablehdr">
+	       {% for header in headings %}
+	       <th class="tablecell">
+		       {{ header }} 
+	       </th>
+	      {% endfor %}
+           </tr>
+	   {% for row in data %}
+           <tr class="tablerow">
+	      {% for cell in row %}
+              <td class="tablecell">
+		      {{ cell }}
+              </td>
+	      {% endfor %}
+           </tr>
+	   {% endfor %}
+	</table>
+    </form>
+</head>
+<body>
+
+</body>
+</html>
+ 

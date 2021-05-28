@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in with your name</title>
+    <link rel="stylesheet" href="/static/chal01.css" media="all" />
+</head>
+<body>
+    <form action = "/showtbl" method = "GET">
+	<table class="table">
+           <tr class="tablehdr">
+	       {% for header in headings %}
+	       <th class="tablecell">
+		       {{ header }} 
+	       </th>
+	      {% endfor %}
+           </tr>
+	   {% for row in data %}
+           <tr class="tablerow">
+	      {% for cell in row.values() %}
+              <td class="tablecell">
+		      {{ cell }}
+              </td>
+	      {% endfor %}
+           </tr>
+	   {% endfor %}
+	</table>
+    </form>
+    <table>
+	 <tr>
+             <td>
+                 <form action = "/addtbl" method = "POST">
+                      <p><h3>Number of Groups :</h3></p>
+                      <p><input type = "number" name = "rcnt" min="1" max="5"/></p>
+                      <p><input type = "submit" value = 'submit'/></p>
+		 </form>
+             </td>
+             <td>
+                 <form action = "/logout" method = "POST">
+                 <p><input type = "submit" value = 'Logout'/></p>
+             </td>
+	 </tr>
+    </table>
+</body>
+</html>
